@@ -1,10 +1,19 @@
-name: Checkout
-
+name: learn-github-actions
+run-name: ${{ github.actor }} is learning GitHub Actions
 on: [push]
-
 jobs:
-  cypress-run:
+  check-bats-version:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '14'
+      - run: npm install
+      - run: npx cypress run
+      - run:
+        name: 'Run Cypress tests'
+        command: npm run e2e:record -- --env circle=true
+        no_output_timeout: '1m'
+      - store_artifacts:
+        path: cypress\screenshots

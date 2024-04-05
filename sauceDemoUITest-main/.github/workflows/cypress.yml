@@ -11,9 +11,8 @@ jobs:
           node-version: '14'
       - run: npm install
       - run: npx cypress run
-      - run:
-        name: 'Run Cypress tests'
-        command: npm run e2e:record -- --env circle=true
-        no_output_timeout: '1m'
-      - store_artifacts:
-        path: cypress\screenshots
+      uses: actions/upload-artifact@latest
+      if: failure()
+      with:
+          name: cypress-snapshots
+          path: cypress/snapshots

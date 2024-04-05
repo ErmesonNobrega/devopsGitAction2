@@ -1,18 +1,15 @@
-name: learn-github-actions
-run-name: ${{ github.actor }} is learning GitHub Actions
+name: Cypress Tests UI Run on Pipeline
+
 on: [push]
+
 jobs:
-  check-bats-version:
+  cypress-run:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '14'
-      - run: npm install
-      - run: npx cypress run
-      uses: actions/upload-artifact@latest
-      if: failure()
-      with:
-          name: cypress-snapshots
-          path: cypress/snapshots
+      - name: Checkout
+        uses: actions/checkout@v3
+      - run: npm i
+      - name: 'Run Cypress tests'
+        run: npx cypress run
+      # - store_artifacts:
+      #   path: cypress\screenshots
